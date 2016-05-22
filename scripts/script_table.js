@@ -54,6 +54,8 @@ function addInput(boolean, c_id)
 
 function addSingle(boolean, c_id)
 {
+    var csrf_token = $('#csrf_token').val();
+
     var newValue;
     var in_action;
     if (boolean == 0) {
@@ -68,6 +70,7 @@ function addSingle(boolean, c_id)
         url:"../main/main_page.php",
         method:"POST",
         data:{
+              csrf_token: csrf_token,
               action: in_action,
               id: c_id,
               new_value: newValue
@@ -80,6 +83,9 @@ function addSingle(boolean, c_id)
 }
 
 function modSingle(mission, pe_id, c_id) {
+
+    var csrf_token = $('#csrf_token').val();
+
     var in_action;
     var newValue;
     switch (mission) {
@@ -105,6 +111,7 @@ function modSingle(mission, pe_id, c_id) {
             url:"../main/main_page.php",
             method:"POST",
             data:{
+                csrf_token: csrf_token,
                 action: in_action,
                 id: pe_id,
                 new_value: newValue

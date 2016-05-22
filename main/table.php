@@ -2,8 +2,8 @@
 
 require '../models/model_profile.php';
 
-foreach (model_load_profile() as $profile) {
 
+foreach (model_load_profile() as $profile) {
 
     $delete_contact = 'deleteContact('.$profile['c_id'].')';
 
@@ -12,7 +12,6 @@ foreach (model_load_profile() as $profile) {
 
     $add_one_phone_link_id = 'add-phone-link-contact'.$profile['c_id'];
     $add_one_email_link_id = 'add-email-link-contact'.$profile['c_id'];
-
 
     echo '
         <tr>

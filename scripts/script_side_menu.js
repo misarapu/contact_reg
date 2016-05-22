@@ -8,15 +8,15 @@ function configHideShow(showDivId) {
 }
 
 
-function loadProfile(in_id)
+/*function loadProfile(in_id)
 {
-    console.log(in_id + " js");
-    console.log("loadprofile klikk");
+    //var csrf_token = "<?= $_SESSION['csrf_token']; ?>";
 
     $.ajax({
         url:"../main/profile.php", // või lihsalt
         method:"POST",
         data:{
+            //csrf_token: csrf_token,
             id: in_id
         },
         dataType:"text",
@@ -26,4 +26,4 @@ function loadProfile(in_id)
         }
     });
 
-}
+}*/

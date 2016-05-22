@@ -1,6 +1,9 @@
 $(document).ready(function()
 {
     $('#button-add').click(function() {
+
+        var csrf_token = $('#csrf_token').val();
+
         var in_fn = $.trim($('#input-add-fn').val());
         var in_ln = $.trim($('#input-add-ln').val());
         var in_category = $.trim($('#select-add-category').val());
@@ -19,13 +22,15 @@ $(document).ready(function()
             $.ajax({
                     url:"../main/main_page.php",
                     method:"POST",
-                    data:{action:'add-contact',
-                    fn:in_fn,
-                    ln:in_ln,
-                    date:in_date,
-                    category:in_category,
-                    phone:in_phone,
-                    email:in_email
+                    data:{
+                        action:'add-contact',
+                        csrf_token: csrf_token,
+                        fn:in_fn,
+                        ln:in_ln,
+                        date:in_date,
+                        category:in_category,
+                        phone:in_phone,
+                        email:in_email
                 },
                 dataType:"text",
                 success:function(data) {
@@ -65,12 +70,15 @@ function getAge(date)
 function deleteContact(c_id)
 {
 
+    var csrf_token = $('#csrf_token').val();
+
     $.ajax({
         url:"../main/main_page.php",
         method:"POST",
         data:{
               action: 'delete-contact',
-              id: c_id,
+              csrf_token: csrf_token,
+              id: c_id
         },
         dataType:"text",
         success:function(data) {

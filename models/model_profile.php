@@ -14,9 +14,14 @@ if (!$l) {
 function model_load_profile()
 {
     global $l;
+
+    //$max = 2;
+    //$start = ($page - 1) * $max;
+
     $query = 'SELECT contacts.Id, Fn, Ln, Birthdate, Category
               FROM contacts';
     $stmt = mysqli_prepare($l, $query);
+    //mysqli_stmt_bind_param($stmt, 'ii', $start, $max);
     mysqli_execute($stmt);
     mysqli_stmt_bind_result($stmt, $c_id, $fn, $ln, $birthdate, $category);
     $data = array();
