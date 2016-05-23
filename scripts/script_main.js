@@ -4,6 +4,31 @@ $(document).ready(function()
     $('#div-menu-list').load('../main/side_menu.php');
     $('#tbody-contacts-list').load('../main/table.php');
 
+    $('#input-menu-search').keyup(function() {
+        var txt = $(this).val();
+        if(txt != ''){
+
+        } else {
+            $('#test').html('');
+            $.ajax({
+                url: '../main/main_page.php',
+                method: 'post',
+                data: {
+                    action: 'search',
+                    search: txt
+                }
+                dataType: 'text',
+                success: function(data) {
+                    $('#test').html(data);
+
+                }
+            });
+        }
+    });
+
+
+
+
 });
 
 /**

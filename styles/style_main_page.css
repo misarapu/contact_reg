@@ -9,3 +9,12 @@
     background-color: #24248f;
     color: white;
 }
+
+#div-table {
+    height: 630px;
+    overflow-y: scroll;
+}
+
+#table-head {
+    position: static;
+}

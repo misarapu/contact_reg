@@ -13,15 +13,19 @@
 
             <!-- Tiitel -->
 
-            <div class="jumbotron title">
+            <div class="jumbotron title"  style="margin-bottom: 0px">
                 <h1># Kontaktide register</h1>
             </div>
+
+            <!-- Flash messages -->
+
             <?php foreach (message_list() as $message):?>
-                <p style="border: 1px solid blue; background: #EEE;">
+                <p id="message">
                     <?= $message; ?>
                 </p>
             <?php endforeach; ?>
-            <div class="col-sm-4 col-sm-offset-4" style="background-color:white; border: 1px dashed #f2f2f2; padding: 50px">
+
+            <div class="col-sm-4 col-sm-offset-4" id="div-log">
 
                 <!-- Registreerimise vorm -->
 

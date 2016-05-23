@@ -1,7 +1,24 @@
 .title {
     border-radius: 0 !important;
     align-items: center;
+    margin-bottom: 0px;
 
     background-color: #24248f;
     color: white;
+}
+
+#message {
+    background-color: #BA2F2F;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 10px;
+}
+
+#div-log {
+    background-color:white;
+    border: 1px dashed #f2f2f2;
+    padding: 50px;
+    margin-top: 100px
 }

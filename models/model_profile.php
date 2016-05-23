@@ -14,7 +14,7 @@ function model_load_profile()
 
     // andmebaasi päring
     $query = 'SELECT contacts.Id, Fn, Ln, Birthdate, Category
-              FROM contacts';
+              FROM contacts ORDER BY Fn ASC';
     $stmt = mysqli_prepare($l, $query);
 
     mysqli_execute($stmt);

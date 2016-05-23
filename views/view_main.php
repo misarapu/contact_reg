@@ -31,6 +31,9 @@
                     </div>
                     <div class="input-group">
                         <input type="text" class="form-control" id="input-menu-search" placeholder="Otsi ...">
+                        <div id="test">
+                            
+                        </div>
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">
                                 <span class="glyphicon glyphicon-search"></span>
@@ -118,7 +121,7 @@
                     <div class="container">
                         <table class="table table-bordered">
 
-                            <thead>
+                            <thead id="table-head">
                                 <tr>
                                     <th>Id</th>
                                     <th>Eesnimi</th>
