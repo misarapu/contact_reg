@@ -1,0 +1,13 @@
+#tbody-contacts-list input{
+    border: none;
+}
+
+#tbody-contacts-list .input-group button{
+    border-radius: 0px !important;
+    padding: 0px !important;
+    background-color: transparent;
+}
+
+#tbody-contacts-list button {
+    color: black;
+}

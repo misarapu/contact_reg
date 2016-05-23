@@ -1,9 +1,5 @@
 .title {
-    display: flex;
-    height: 120px;
     border-radius: 0 !important;
-    margin-right: -15px !important;
-    margin-left: -15px !important;
     align-items: center;
 
     background-color: #24248f;

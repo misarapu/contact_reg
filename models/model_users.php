@@ -1,24 +1,27 @@
 <?php
 
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db = "contacts_reg";
+require '../config/config_db.php';
 
-$l = mysqli_connect($host, $user, $pass, $db);
-mysqli_query($l, "SET CHARACTER SET UTF8") or die("Error, ei saa andmebaasi charsetti seatud");
-if (!$l) {
-    die('Could not connect: ' . mysqli_error($l));
-}
-
+/**
+ * Lisab andmebaasi uue kasutajanime ja parooli.
+ *
+ * @param string $username Uue kasutaja kasutajanimi
+ *        string $password Uue kasutaja parool
+ *
+ * @return int $id Uue kasutaja id väärtus
+ */
 function model_user_add($username, $password)
 {
     global $l;
 
+    // paroolist tehakse räsi
     $hash = password_hash($password, PASSWORD_DEFAULT);
 
+    // andmebaasi päring
     $query = 'INSERT INTO users (Username, Password) VALUES (?, ?)';
+
     $stmt = mysqli_prepare($l, $query);
+
     if (mysqli_error($l)) {
         echo mysqli_error($l);
         exit;
@@ -34,6 +37,15 @@ function model_user_add($username, $password)
     return $id;
 }
 
+/**
+ * Otsib andmebaasist kasutaja kasutajanime ja kontollib, kas sisestud parool
+ * on vastavuses andmebaasis oleva vastava kasutaja parooliga
+ *
+ * @param string $username Sisetatud kasutajanimi
+ *        string $password Sisestatud parool
+ *
+ * @return int $id Kasutaja id väärtus
+ */
 function model_user_get($username, $password)
 {
     global $l;

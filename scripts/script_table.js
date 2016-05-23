@@ -1,63 +1,139 @@
+/**
+ * Moodustab kontaktide tabelis uue telefoninumbri või emaliaadressi
+ * sisestamiseks ajutise inputi.
+ *
+ * @param int 0 või 1, vastavalt, kas soovitakse lisada uus telefoninumber
+ *                või emailiaadress
+ *        int c_id Kontakti id väärtus
+ */
+
+
 function addInput(boolean, c_id)
 {
+    // kontakti id
     var contactId = c_id;
-
+    // ajutine div
     var infoTypeDiv;
+    // ajutine input
     var newInputId;
+
+    // Aktsiooni kontroll - kas input luuakse telefoninumbri või emailiaadressi
+    // jaoks. Defineeritakse ajutised id-d, mis omistatakse hiljem ajutisele
+    // inputile ja inputi õigesse tabeli lahtrisse esile kutsuvale lingile.
+    // Id-d peavad olema samad, mis on loodud vastavalt ka failis
+    // '../main/table.php'
     if (boolean == 0) {
-        infoTypeDiv = '#add-phone-link-contact' + c_id;
+        infoTypeDiv = '#add-phone-link-contact-' + c_id;
         newInputId = 'temp-input-phone-' + c_id;
     } else if (boolean == 1) {
-        infoTypeDiv = '#add-email-link-contact' + c_id;
+        infoTypeDiv = '#add-email-link-contact-' + c_id;
         newInputId = 'temp-input-email-' + c_id;
     }
 
+    // lingile vajutamisel link peidetakse
     $(infoTypeDiv).css('display', 'none');
-    var div = $('<div/>');
 
-    var buttonRemove = $('<button/>', {
-        style: 'display: inline-block',
-        type: 'button',
-        id: 'button-remove-extra-input',
-        text: 'x'
-    }).appendTo(div);
+    // luuakse inputi parent ajutine div
+    var div = $('<div/>', {
+        class: 'input-group'
+    });
 
+    // luuakse input ja seotakse see div-ga
     var input = $('<input/>', {
         type: 'text',
-        id: newInputId
+        id: newInputId,
+        class: 'form-control',
+        style: 'background-color: #ccffff'
     }).appendTo(div);
 
+    // luuakse ajutise inputi eemaldamise nupu parent span
+    // ja seotakse seotakse div-ga
+    var buttonRemoveSpanOut = $('<span/>', {
+        class: 'input-group-btn',
+    }).appendTo(div);
+
+    // luuakse ajutise inputi eemaldamise nupp ja soetakse see parent span-ga
+    var buttonRemove = $('<button/>', {
+        style: 'display: inline-block; background-color: transparent;',
+        type: 'button',
+        id: 'button-remove-extra-input',
+        class: 'btn'
+    }).appendTo(buttonRemoveSpanOut);
+
+    // luuakse ajutise inputi eemaldamise nupu child span
+    // ja seotakse see parent nupuga
+    var buttonRemoveSpanIn = $('<span/>', {
+        class: 'glyphicon glyphicon-remove-circle',
+    }).appendTo(buttonRemove);
+
+    // luuakse ajutise inputi submit nupu parent span
+    // ja seotakse seotakse div-ga
+    var buttonSubmitSpanOut = $('<span/>', {
+        class: 'input-group-btn',
+    }).appendTo(div);
+
+    // luuakse ajutise inputi submit nupp ja soetakse see parent span-ga
     var buttonSubmit = $('<button/>', {
         type: 'button',
-        text: 'lisa',
-        style: 'display: none',
+        class: 'btn',
+        style: 'display: none; background-color: transparent;',
         onclick: 'addSingle(' + boolean + ',' + c_id + ')'
-    }).appendTo(div);
+    }).appendTo(buttonSubmitSpanOut);
 
+    // luuakse ajutise inputi submit nupu child span
+    // ja seotakse see parent nupuga
+    var buttonSubmitSpan = $('<span/>', {
+        class: 'glyphicon glyphicon-ok-circle'
+    }).appendTo(buttonSubmit);
+
+    // ajutine div seotakse uue inputi lisamise ikooni asemele
     div.appendTo($(infoTypeDiv).prev());
 
+    /**
+     * Ajutise inputi eemaldamise nupule vajutades eemeldatakse
+     * ajutine div ja tuuakse esile ajutise inputi lisamise ikoon.
+     */
     buttonRemove.on('click', function() {
-        $(this).parent().remove();
+        $(this).parent().parent().remove();
         $(infoTypeDiv).css('display', 'inline-block');
     });
 
+    /**
+     * Kui ajutise inputi väärtus ei ole tühi, siis on eemaldamise ja submit nupp
+     * nähtavad. Kui input on tühi, siis submit nupp.
+     */
     input.on('keyup', function() {
         if(input.val() != '') {
             buttonRemove.css('display', 'inline-block');
             buttonSubmit.css('display', 'inline-block');
         } else if (input.val() == '') {
-            $(infoTypeDiv).css('display', 'none');
+            buttonSubmit.css('display', 'none');
         }
     });
 
 }
 
+/**
+ * Saadetakse andmebaasi ajax päring, et lisada uus üks telefoninumber
+ * või emailiaadress.
+ *
+ * @param int boolean 0 või 1, vastavalt, kas soovitakse saata uus
+ *                    telefoninumber või emailiaadress.
+ *        int c_id    Kontakti id väärtus
+ */
 function addSingle(boolean, c_id)
 {
+    // unikaalne CSRF token
     var csrf_token = $('#csrf_token').val();
-
+    // uue telefoninumbri või emailiaadressi muutuja
     var newValue;
+    // post aktsioon
     var in_action;
+
+    // Aktsiooni kontroll - kas saatma hakatakse telefoninumbrit või
+    // emailiaadressi. Uuele väärtus on vastava ajutise inputi väärtus
+    // Id-d peavad olema samad, mis on loodud vastavalt ka failis
+    // '../main/table.php'. Defineeritakse vastav post aktsioon.
     if (boolean == 0) {
         newValue = $('#temp-input-phone-' + c_id).val();
         in_action = 'add-new-phone';
@@ -66,6 +142,7 @@ function addSingle(boolean, c_id)
         in_action = 'add-new-email';
     }
 
+    // ajax päring
     $.ajax({
         url:"../main/main_page.php",
         method:"POST",
@@ -77,17 +154,35 @@ function addSingle(boolean, c_id)
         },
         dataType:"text",
         success:function(data) {
+
+            // eduka päringu korral, laetakse uuesti tabeli tbody
             $('#tbody-contacts-list').load('../main/table.php');
         }
     });
 }
 
-function modSingle(mission, pe_id, c_id) {
-
+/**
+ * Saadetakse andmebaasi päring vastavalt, kas soovitakse muuta või kustutada
+ * telefoninumbrit või emailiaadressi.
+ *
+ * @parma int mission 1, 2, 3, 4 vastavalt, kas soovitakse kustutada
+ *                    telefoninumbrit, uuendada telefoninumbrit, kustutada
+ *                    emailiaadressi, muuta emailiaadressi
+ *        int pe_id Telefoninumbri või emailiaadressi id väärtus
+ *        int c_id Kontakti id väärtus
+ */
+function modSingle(mission, pe_id, c_id)
+{
+    // unikaalne CSRF token
     var csrf_token = $('#csrf_token').val();
-
+    // post aktsiooni muutuja
     var in_action;
+    // uus väärtus
     var newValue;
+    // Kontrollitakse, millist post päringut saata. Telefoninumbri või
+    // emailiaadressi uuendamise korral saadakse uus väärtus ajutisest
+    // inputist, mille id on on loodud vastavalt ka failis
+    // '../main/table.php'
     switch (mission) {
         case 1:
             in_action = 'delete-phone';
@@ -106,7 +201,7 @@ function modSingle(mission, pe_id, c_id) {
             break;
     }
 
-    console.log(newValue);
+    // ajax päring
     $.ajax({
             url:"../main/main_page.php",
             method:"POST",
@@ -118,7 +213,57 @@ function modSingle(mission, pe_id, c_id) {
         },
         dataType:"text",
         success:function(data) {
+
+            // eduka päringu korral laetakse kontaktide tbody uuesti.
             $('#tbody-contacts-list').load('../main/table.php');
         }
     });
 }
+
+$('#pagination').on('click', 'a', function(e) {
+	var page = 1;
+	var pagination = '';
+    var numPage = 10;
+	$('#tbody-contacts-list').html('Laadin');
+
+
+	$.ajax({
+        url: '../main/table.php',
+		method: 'POST',
+		data: {
+            page: page
+        },
+		dataType: 'text',
+		success: function(data) {
+            console.log('mison');
+            $('#tbody-contacts-list').load('../main/table.php');
+
+			// Pagination system
+			/*if (page == 1) {
+                pagination += '<div class="cell_disabled"><span>First</span></div><div class="cell_disabled"><span>Previous</span></div>';
+			} else {
+                pagination += '<div class="cell"><a href="#" id="1">First</a></div><div class="cell"><a href="#" id="' + (page - 1) + '">Previous</span></a></div>';
+            }
+			for (var i=parseInt(page)-3; i<=parseInt(page)+3; i++) {
+				if (i >= 1 && i <= numPage) {
+					pagination += '<div';
+					if (i == page) {
+                        pagination += ' class="cell_active"><span>' + i + '</span>';
+                    } else {
+                        pagination += ' class="cell"><a href="#" id="' + i + '">' + i + '</a>';
+                    }
+					pagination += '</div>';
+				}
+			}
+
+			if (page == numPage) {
+                pagination += '<div class="cell_disabled"><span>Next</span></div><div class="cell_disabled"><span>Last</span></div>';
+            } else {
+                pagination += '<div class="cell"><a href="#" id="' + (parseInt(page) + 1) + '">Next</a></div><div class="cell"><a href="#" id="' + data.numPage + '">Last</span></a></div>';
+            }
+
+			$('#pagination').html(pagination);*/
+		}
+	});
+	return false;
+});
