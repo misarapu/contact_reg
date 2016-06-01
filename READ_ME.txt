@@ -1,8 +1,10 @@
-
+﻿
 Mikk Sarapuu
 10151716
 
 http://enos.itcollege.ee/~misarapu/contacts_reg/main/main_page.php
+
+/** Rakendus ei tööta täisväärtuslikult IE korral **/
 
 Githubi kood pole seotud enose serveriga.
 
@@ -42,3 +44,13 @@ tahtnud AJAXiga teha, kuid ei osanud.
 Samuti kasutasin palju html elementide id-dega manipuleerimist. Kõik töötab,
 aga muudab koodi jälgimise üsna segaseks. Kui nii tehaksegi, siis arvan, et olen
 selles päris osav, aga kahtlen, et korrektne lähenemine selline võiks olla.
+
+--------------------------------------------------------------------------------
+
+Tagasiside:
+
+Sain projekti kätte, see sobib väga hästi. id’de asemel kasutatakse metainfo 
+jaoks tavaliselt data-* atribuute, mis on mugavam kui id või class väärtustega 
+toimetamine, kuna neid saab kasutada selektoris ning neid saab lisada ühele elemendile 
+mitu https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Using_data_attributes.
+Samas muidugi võib ka nii, peaasi et töötab
